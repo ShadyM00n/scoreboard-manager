@@ -59,7 +59,7 @@ console.log('All scores cleared.');
 
 ## Methods
 
-### `Scoreboard.get(name, scoreboard)`
+### `Scoreboard.player.get(name, scoreboard)`
 
 Get the score of a player from a specified scoreboard.
 
@@ -69,7 +69,7 @@ Get the score of a player from a specified scoreboard.
 
 - **Returns:** `Promise<number>`
 
-### `Scoreboard.set(name, scoreboard, amount)`
+### `Scoreboard.player.set(name, scoreboard, amount)`
 
 Set the specified amount to the player in the scoreboard.
 
@@ -80,7 +80,7 @@ Set the specified amount to the player in the scoreboard.
 
 - **Returns:** `Promise<boolean>`
 
-### `Scoreboard.clear(name, scoreboard)`
+### `Scoreboard.player.clear(name, scoreboard)`
 
 Clear the specified player's score in the scoreboard.
 
