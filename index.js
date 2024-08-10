@@ -26,6 +26,8 @@ class Player {
     }
 
 
+    
+
 /**
  * Set the specified amount to the player in the scoreboard
  * @param {string} name - The name of the player.
@@ -70,6 +72,23 @@ static async add(name, scoreboard, amount) {
     const pl = score.getParticipants().find(pl => pl.displayName === name);
     const sc = this.get(name, scoreboard);
     score.setScore(pl, sc + amount);
+    return true;
+}
+
+
+/**
+ * Remove the specified amount to the player in the scoreboard
+ * @param {string} name - The name of the player.
+ * @param {string} scoreboard - The name of the scoreboard.
+ * @param {number} amount - The amount to give.
+ * @returns {Promise<void>}
+ */
+
+static async remove(name, scoreboard, amount) {
+    const score = world.scoreboard.getObjective(scoreboard);
+    const pl = score.getParticipants().find(pl => pl.displayName === name);
+    const sc = this.get(name, scoreboard);
+    score.setScore(pl, sc - amount);
     return true;
 }
 
