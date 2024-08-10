@@ -6,9 +6,9 @@ This module provides a utility for managing Minecraft scoreboards using the `@mi
 
 To use this module, ensure you have the `@minecraft/server` module installed in your project. You can install it using npm if you haven't already:
 
-+++bash
+```bash
 npm install @minecraft/server
-+++
+```
 
 ## Usage
 
@@ -16,7 +16,7 @@ Import the `Scoreboard` module and use the provided methods to interact with sco
 
 ### Example Code
 
-+++javascript
+```javascript
 import { Scoreboard } from './path/to/your/scoreboard-module';
 
 // Example: Setting a score for a player
@@ -55,7 +55,7 @@ console.log('Scoreboard deleted.');
 // Example: Clearing all scores from a scoreboard
 await Scoreboard.clear('myScoreboard');
 console.log('All scores cleared.');
-+++
+```
 
 ## Methods
 
