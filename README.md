@@ -20,17 +20,17 @@ Import the `Scoreboard` module and use the provided methods to interact with sco
 import { Scoreboard } from './path/to/your/scoreboard-module';
 
 // Example: Setting a score for a player
-await Scoreboard.set('player1', 'myScoreboard', 100);
+await Scoreboard.player.set('player1', 'myScoreboard', 100);
 
 // Example: Getting a player's score
-const score = await Scoreboard.get('player1', 'myScoreboard');
+const score = await Scoreboard.player.get('player1', 'myScoreboard');
 console.log(`Player1's score: ${score}`);
 
 // Example: Adding to a player's score
-await Scoreboard.add('player1', 'myScoreboard', 50);
+await Scoreboard.player.add('player1', 'myScoreboard', 50);
 
 // Example: Clearing a player's score
-await Scoreboard.clear('player1', 'myScoreboard');
+await Scoreboard.player.clear('player1', 'myScoreboard');
 
 // Example: Transferring scores between players
 const transferResult = await Scoreboard.transfer(['player1', 'player2'], 'myScoreboard', 30);
