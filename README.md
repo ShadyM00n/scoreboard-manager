@@ -90,7 +90,7 @@ Clear the specified player's score in the scoreboard.
 
 - **Returns:** `Promise<boolean>`
 
-### `Scoreboard.add(name, scoreboard, amount)`
+### `Scoreboard.player.add(name, scoreboard, amount)`
 
 Add the specified amount to the player in the scoreboard.
 
@@ -98,6 +98,17 @@ Add the specified amount to the player in the scoreboard.
   - `name` (string): The name of the player.
   - `scoreboard` (string): The name of the scoreboard.
   - `amount` (number): The amount to add.
+
+- **Returns:** `Promise<boolean>`
+
+### `Scoreboard.player.remove(name, scoreboard, amount)`
+
+Remove the specified amount from the player in the scoreboard.
+
+- **Parameters:**
+  - `name` (string): The name of the player.
+  - `scoreboard` (string): The name of the scoreboard.
+  - `amount` (number): The amount to remove.
 
 - **Returns:** `Promise<boolean>`
 
