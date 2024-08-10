@@ -10,18 +10,18 @@ class Player {
      */
     static async get(name, scoreboard) {
         try {
-            const oB = world.scoreboard.getObjective(scoreboard);
+            const oB = await world.scoreboard.getObjective(scoreboard);
             if (typeof name == "string")
                 return oB.getScore(
-                    oB.getParticipants().find((pT) => pT.displayName == name)
+                    await   oB.getParticipants().find((pT) => pT.displayName == name)
                 );
-            if (oB.getScore(target.scoreboardIdentity) == undefined) {
+            if (await oB.getScore(target.scoreboardIdentity) == undefined) {
                 return 0;
             } else {
-                return oB.getScore(target.scoreboardIdentity);
+                return await oB.getScore(target.scoreboardIdentity);
             }
         } catch {
-            return true ? 0 : NaN;
+            return await true ? 0 : NaN;
         }
     }
 
@@ -37,9 +37,9 @@ class Player {
  */
 
 static async set(name, scoreboard, amount) {
-    const score = world.scoreboard.getObjective(scoreboard);
-    const pl = score.getParticipants().find(pl => pl.displayName === name);
-    score.setScore(pl, amount);
+    const score = await world.scoreboard.getObjective(scoreboard);
+    const pl = await score.getParticipants().find(pl => pl.displayName === name);
+    await score.setScore(pl, amount);
     return true;
 }
 
@@ -52,9 +52,9 @@ static async set(name, scoreboard, amount) {
  */
 
 static async clear(name, scoreboard) {
-    const score = world.scoreboard.getObjective(scoreboard);
-    const pl = score.getParticipants().find(pl => pl.displayName === name);
-    score.removeParticipant(pl);
+    const score = await world.scoreboard.getObjective(scoreboard);
+    const pl = await score.getParticipants().find(pl => pl.displayName === name);
+    await score.removeParticipant(pl);
     return true;
 }
 
@@ -68,13 +68,12 @@ static async clear(name, scoreboard) {
  */
 
 static async add(name, scoreboard, amount) {
-    const score = world.scoreboard.getObjective(scoreboard);
-    const pl = score.getParticipants().find(pl => pl.displayName === name);
-    const sc = this.get(name, scoreboard);
-    score.setScore(pl, sc + amount);
+    const score = await world.scoreboard.getObjective(scoreboard);
+    const pl = await score.getParticipants().find(pl => pl.displayName === name);
+    const sc = await this.get(name, scoreboard);
+    await score.setScore(pl, sc + amount);
     return true;
 }
-
 
 /**
  * Remove the specified amount to the player in the scoreboard
@@ -85,10 +84,10 @@ static async add(name, scoreboard, amount) {
  */
 
 static async remove(name, scoreboard, amount) {
-    const score = world.scoreboard.getObjective(scoreboard);
-    const pl = score.getParticipants().find(pl => pl.displayName === name);
-    const sc = this.get(name, scoreboard);
-    score.setScore(pl, sc - amount);
+    const score = await world.scoreboard.getObjective(scoreboard);
+    const pl = await score.getParticipants().find(pl => pl.displayName === name);
+    const sc = await this.get(name, scoreboard);
+    await score.setScore(pl, sc - amount);
     return true;
 }
 
@@ -97,10 +96,6 @@ static async remove(name, scoreboard, amount) {
 }
 
 class ScoreboardClass {
-    /**
-     * Reference to the Player class.
-     * @type {typeof Player}
-     */
     static player = Player;
 
     /**
@@ -109,10 +104,10 @@ class ScoreboardClass {
      * @returns {Promise<void>}
      */
     static async total (scoreboard) {
-        const score = world.scoreboard.getObjective(scoreboard)
+        const score = await world.scoreboard.getObjective(scoreboard)
         let sc = 0;
-        score.getScores().forEach(value => sc = sc + value.score);
-        return sc;
+        await score.getScores().forEach(value => sc = sc + value.score);
+        return await sc;
      }
 
     /**
@@ -121,10 +116,10 @@ class ScoreboardClass {
      * @returns {Promise<void>}
      */
     static async list (scoreboard) {
-        const score = world.scoreboard.getObjective(scoreboard)
+        const score = await world.scoreboard.getObjective(scoreboard)
         let sc = [];
-        score.getScores().forEach(val => sc.push({ name: val.participant.displayName, value: val.score.valueOf()}));
-        return sc;
+        await score.getScores().forEach(val => sc.push({ name: val.participant.displayName, value: val.score.valueOf()}));
+        return await sc;
      }
  
     /**
@@ -135,7 +130,7 @@ class ScoreboardClass {
     static async allData (scoreboard) {
         const list = await this.list(scoreboard);
         const total = await this.total(scoreboard);
-        return { total: total, players: list};
+        return await { total: total, players: list};
     }
 /**
  * Transfer a specified amount from one player to another in the specified score.
@@ -149,10 +144,10 @@ static async transfer(players = [player1, player2], scoreboard, amount) {
     const score = world.scoreboard.getObjective(scoreboard);
     let senderScore = await this.player.get(players[0], scoreboard);
     let receiverScore = await this.player.get(players[1], scoreboard);
-    const senderParticipant = score.getParticipants().find(p => p.displayName === players[0]);
-    const receiverParticipant = score.getParticipants().find(p => p.displayName === players[1]);
+    const senderParticipant = await score.getParticipants().find(p => p.displayName === players[0]);
+    const receiverParticipant = await score.getParticipants().find(p => p.displayName === players[1]);
     if (!senderParticipant || !receiverParticipant) {
-        console.error("One or both players do not exist on the scoreboard.");
+        await console.error("One or both players do not exist on the scoreboard.");
         return false;
     }
     if (amount > senderScore || receiverScore + amount > Math.pow(2, 32)) {
@@ -163,7 +158,7 @@ static async transfer(players = [player1, player2], scoreboard, amount) {
         await score.setScore(receiverParticipant, receiverScore + amount);
         return true;
     } catch (err) {
-        console.error(err);
+        await console.error(err);
         return false;
     }
 }
@@ -177,9 +172,9 @@ static async transfer(players = [player1, player2], scoreboard, amount) {
  */
 static async leaderboard(scoreboard, amount = 10) {
     const list = await this.list(scoreboard);
-    const sortedList = list.sort((a, b) => b.value - a.value);
-    const limitedList = sortedList.slice(0, amount);
-    return limitedList.map((item, index) => ({
+    const sortedList = await list.sort((a, b) => b.value - a.value);
+    const limitedList = await sortedList.slice(0, amount);
+    return await limitedList.map((item, index) => ({
         placement: index + 1,
         name: item.name,
         value: item.value
@@ -193,7 +188,7 @@ static async leaderboard(scoreboard, amount = 10) {
  */
 
 static async delete(scoreboard) {
-        return world.scoreboard.removeObjective(scoreboard).valueOf();
+        return await world.scoreboard.removeObjective(scoreboard).valueOf();
     }
 
 
@@ -204,15 +199,21 @@ static async delete(scoreboard) {
  */
 
 static async clear(scoreboard) {
-    const score = world.scoreboard.getObjective(scoreboard);
+    const score = await world.scoreboard.getObjective(scoreboard);
     
-    score.getParticipants().forEach(async player => {
+    await score.getParticipants().forEach(async player => {
       await score.removeParticipant(player.displayName);
     })
 }
 
 }
-
+const player = {
+   add: Player.add,
+   remove: Player.remove,
+   clear: Player.clear,
+   get: Player.get,
+   set: Player.set
+}
 
 const Scoreboard = {
     total: ScoreboardClass.total,
@@ -222,6 +223,7 @@ const Scoreboard = {
     leaderboard: ScoreboardClass.leaderboard,
     delete: ScoreboardClass.delete,
     clear: ScoreboardClass.clear,
+    player: player
 };
 
 export { Scoreboard }
