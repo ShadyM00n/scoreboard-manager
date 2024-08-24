@@ -178,6 +178,11 @@ Clear all scores of the specified scoreboard.
 
 - **Returns:** `Promise<void>`
 
+### Support
+
+- [x] Javascript
+- [x] Typescript
+
 ## Contributing
 
 If you'd like to contribute to this project, please fork the repository and submit a pull request with your changes.
