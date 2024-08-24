@@ -13,12 +13,12 @@ class Player {
             const oB = await world.scoreboard.getObjective(scoreboard);
             if (typeof name == "string")
                 return oB.getScore(
-                    await   oB.getParticipants().find((pT) => pT.displayName == name)
+                    await oB.getParticipants().find((pT) => pT.displayName == name)
                 );
-            if (await oB.getScore(target.scoreboardIdentity) == undefined) {
+            if (await oB.getScore(name) == undefined) {
                 return 0;
             } else {
-                return await oB.getScore(target.scoreboardIdentity);
+                return await oB.getScore(name);
             }
         } catch {
             return await true ? 0 : NaN;
